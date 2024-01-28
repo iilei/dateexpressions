@@ -23,8 +23,17 @@ References:
 import argparse
 import logging
 import sys
+from pathlib import Path
+
+from textx import metamodel_from_file
 
 from dateexpressions import __version__
+from dateexpressions.relative_date import RelativeDate
+
+relative_date_meta_model = metamodel_from_file(
+    Path.joinpath(Path(__file__).parent, "to_relative_date.tx"), use_regexp_group=True
+)
+
 
 __author__ = "iilei • jochen preusche"
 __copyright__ = "iilei • jochen preusche"
@@ -36,24 +45,16 @@ _logger = logging.getLogger(__name__)
 # ---- Python API ----
 # The functions defined in this section can be imported by users in their
 # Python scripts/interactive interpreter, e.g. via
-# `from dateexpressions.skeleton import fib`,
+# `from dateexpressions.parse import parse`,
 # when using this Python module as a library.
 
 
-def fib(n):
-    """Fibonacci example function
+def parse(expression: str = "now"):
+    relative_date_model = relative_date_meta_model.model_from_str(expression)
 
-    Args:
-      n (int): integer
-
-    Returns:
-      int: n-th Fibonacci number
-    """
-    assert n > 0
-    a, b = 1, 1
-    for _i in range(n - 1):
-        a, b = b, a + b
-    return a
+    relative_date = RelativeDate()
+    _logger.debug(f"{expression=}")
+    return relative_date.interpret(relative_date_model)
 
 
 # ---- CLI ----
@@ -78,7 +79,9 @@ def parse_args(args):
         action="version",
         version=f"dateexpressions {__version__}",
     )
-    parser.add_argument(dest="n", help="n-th Fibonacci number", type=int, metavar="INT")
+    parser.add_argument(
+        dest="n", help="relative date expression", type=str, metavar="String"
+    )
     parser.add_argument(
         "-v",
         "--verbose",
@@ -111,20 +114,19 @@ def setup_logging(loglevel):
 
 
 def main(args):
-    """Wrapper allowing :func:`fib` to be called with string arguments in a CLI fashion
+    """Wrapper allowing :func:`parse` to be called with string arguments in a CLI fashion
 
-    Instead of returning the value from :func:`fib`, it prints the result to the
+    Instead of returning the value from :func:`parse`, it prints the result to the
     ``stdout`` in a nicely formatted message.
 
     Args:
       args (List[str]): command line parameters as list of strings
-          (for example  ``["--verbose", "42"]``).
+          (for example  ``["--verbose", "now/d"]``).
     """
     args = parse_args(args)
     setup_logging(args.loglevel)
-    _logger.debug("Starting crazy calculations...")
-    print(f"The {args.n}-th Fibonacci number is {fib(args.n)}")
-    _logger.info("Script ends here")
+
+    print(str())
 
 
 def run():
@@ -144,6 +146,6 @@ if __name__ == "__main__":
     # After installing your project with pip, users can also run your Python
     # modules as scripts via the ``-m`` flag, as defined in PEP 338::
     #
-    #     python -m dateexpressions.skeleton 42
+    #     python -m dateexpressions.parse "now-1m/m"
     #
     run()

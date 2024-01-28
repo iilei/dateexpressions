@@ -29,15 +29,16 @@ class RelativeDate:
 
         for c in model.statements:
             if c.__class__.__name__ == "DeltaStatement":
+
                 self.result = self.result + timedelta(
                     **{units[c.unit]: c.value * -1 if c.sign == "-" else c.value}
                 )
 
-            elif c.__class__.__name__ == "FloorStatement":
+            if c.__class__.__name__ == "FloorStatement":
                 specificy = ["years", "months", "days", "hours", "minutes", "seconds"]
 
                 if units.get(c.unit) in specificy:
-                    index_of_specificy = specificy.index(units.get(c.unit)) + 1
+                    index_of_specificy = specificy.index(units[c.unit]) + 1
                     ensured_minimum_args = [
                         *self.result.timetuple()[0:index_of_specificy],
                         *[1, 1, 1][0:-index_of_specificy],
