@@ -46,8 +46,11 @@ class RelativeDate:
                     self.result = datetime(*ensured_minimum_args, tzinfo=self.timezone)
 
                 if units.get(c.unit) == "weeks":
-                    self.result = self.result - timedelta(
-                        days=(self.result.weekday() + 1) % 7
+                    self.result = self.result - timedelta(days=self.result.weekday())
+
+                    # week specificy: start of day
+                    self.result = datetime(
+                        *self.result.timetuple()[0:3], tzinfo=self.timezone
                     )
 
         return self.result
