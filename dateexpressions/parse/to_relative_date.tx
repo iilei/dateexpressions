@@ -1,23 +1,27 @@
 Program:
+  now=Now?
   statements*=Statement
 ;
 
 Statement:
-  NowStatement | DeltaStatement 
+  DeltaStatement | FloorStatement
 ;
 
-NowStatement:
-  timezone = /now(?:\s*\((?:(?:timezone|tz)=)?(?P<timezone>[^\=)]+)\))?/
+Now:
+  timezone = /now(?:\s*\((?:(?:timezone)=)?(?P<timezone>[^\=)]+)\))?/
 ;
 
-DeltaStatement: operation=Operation value=INT unit=Unit;
+DeltaStatement: sign=OperationSign value=INT unit=FixedUnit;
 
-Operation: Add | Sub;
+OperationSign: Add | Sub;
 
 Add: '+';
 Sub: '-';
 
-Unit: /([smhdMy]|cw)/;
+FixedUnit: /([smhdwy])/;
+FloorUnit: /([smhdwyM])/;
+
+FloorStatement: '/' unit=FloorUnit;
 
 Comment:
   /\/\*.*\*\//

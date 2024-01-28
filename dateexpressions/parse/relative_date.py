@@ -1,65 +1,53 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-# const units: Record<string, number> = {
-#   w: 604800,
-#   d: 86400,
-#   h: 3600,
-#   m: 60,
-#   s: 1,
-# };
+units = {
+    "s": "seconds",
+    "d": "days",
+    "m": "minutes",
+    "h": "hours",
+    "w": "weeks",
+    "M": "months",
+    "y": "years",
+}
 
-class Delta:
-    def __init__(self) -> None:
-        ...
-    
 
-        
 class RelativeDate:
     def __init__(self):
         self.timezone = ZoneInfo("UTC")
-        self.now = datetime.now(self.timezone)
         self.result = datetime.now(self.timezone)
         self.yield_fmt = "%Y-%m-%d %H:%M:%S"
 
     def __str__(self):
-        return self.result.strftime(self.yield_fmt)    
-
-
+        return self.result.strftime(self.yield_fmt)
 
     def interpret(self, model):
-        # model is an instance of Program
+        if model.now:
+            if model.now.timezone:
+                self.timezone = ZoneInfo(model.now.timezone)
+            self.result = datetime.now(self.timezone)
+
         for c in model.statements:
-
-            if c.__class__.__name__ == "NowStatement":
-                if c.timezone:
-                    self.timezone = ZoneInfo(c.timezone)
-
-                self.now = datetime.now(tz=self.timezone)
-                
             if c.__class__.__name__ == "DeltaStatement":
-                # TBD
-                c.value
-                c.operation
-                c.unit
+                self.result = self.result + timedelta(
+                    **{units[c.unit]: c.value * -1 if c.sign == "-" else c.value}
+                )
 
+            elif c.__class__.__name__ == "FloorStatement":
+                specificy = ["years", "months", "days", "hours", "minutes", "seconds"]
 
-            if c.__class__.__name__ == "Add":
-                # TBD
-                c.delta
+                if units.get(c.unit) in specificy:
+                    index_of_specificy = specificy.index(units.get(c.unit)) + 1
+                    ensured_minimum_args = [
+                        *self.result.timetuple()[0:index_of_specificy],
+                        *[1, 1, 1][0:-index_of_specificy],
+                    ]
 
-            if c.__class__.__name__ == "Sub":
-                # TBD
-                c.delta
+                    self.result = datetime(*ensured_minimum_args, tzinfo=self.timezone)
 
-            if c.__class__.__name__ == "Operation":
-                # TBD
-                c.operation
+                if units.get(c.unit) == "weeks":
+                    self.result = self.result - timedelta(
+                        days=(self.result.weekday() + 1) % 7
+                    )
 
-            if c.__class__.__name__ == "Unit":
-                # TBD
-                c.delta
-
-            if c.__class__.__name__ == "FloorStatement":
-                # TBD
-                ...
+        return self.result

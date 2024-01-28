@@ -1,0 +1,52 @@
+---
+fail_fast: false
+repos:
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.3.1
+    hooks:
+      - id: forbid-crlf
+      - id: forbid-tabs
+  - repo: https://github.com/timothycrosley/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        args:
+          - --profile=black
+          - --line-length=90
+  - repo: https://github.com/psf/black
+    rev: 22.8.0
+    hooks:
+      - id: black
+        args:
+          - --line-length=90
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: file-contents-sorter
+        files: .tool-versions
+      - id: requirements-txt-fixer
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      - id: name-tests-test
+        files: (test(_|\.).*\.py|(_|\.)test\.py)  # see .gitattributes
+        exclude: \/test_utils\.py$
+  - repo: https://github.com/PyCQA/pylint
+    rev: v2.15.3
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: pylint
+        language: python
+        args:
+          - --rcfile=./.pylintrc
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.28.0
+    hooks:
+      - id: yamllint
+        args: [-d, relaxed]
+  - repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+    rev: 0.2.2
+    hooks:
+      - id: yamlfmt
+        args: [--mapping, '2', --sequence, '4', --offset, '2']
