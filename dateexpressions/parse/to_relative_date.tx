@@ -1,0 +1,24 @@
+Program:
+  statements*=Statement
+;
+
+Statement:
+  NowStatement | DeltaStatement 
+;
+
+NowStatement:
+  timezone = /now(?:\s*\((?:(?:timezone|tz)=)?(?P<timezone>[^\=)]+)\))?/
+;
+
+DeltaStatement: operation=Operation value=INT unit=Unit;
+
+Operation: Add | Sub;
+
+Add: '+';
+Sub: '-';
+
+Unit: /([smhdMy]|cw)/;
+
+Comment:
+  /\/\*.*\*\//
+;
