@@ -57,6 +57,8 @@ def parse(expression: str = "now"):
     return relative_date.interpret(relative_date_model)
 
 
+parse("now-1h/h")
+
 # ---- CLI ----
 # The functions defined in this section are wrappers around the main Python
 # API allowing them to be called directly from the terminal as a CLI
