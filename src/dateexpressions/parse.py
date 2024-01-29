@@ -57,8 +57,6 @@ def parse(expression: str = "now"):
     return relative_date.interpret(relative_date_model)
 
 
-parse("now-1h/h")
-
 # ---- CLI ----
 # The functions defined in this section are wrappers around the main Python
 # API allowing them to be called directly from the terminal as a CLI
@@ -75,14 +73,14 @@ def parse_args(args):
     Returns:
       :obj:`argparse.Namespace`: command line parameters namespace
     """
-    parser = argparse.ArgumentParser(description="Just a Fibonacci demonstration")
+    parser = argparse.ArgumentParser(description="Parse Relative Date Expressions")
     parser.add_argument(
         "--version",
         action="version",
         version=f"dateexpressions {__version__}",
     )
     parser.add_argument(
-        dest="n", help="relative date expression", type=str, metavar="String"
+        dest="expression", help="relative date expression", type=str, metavar="String"
     )
     parser.add_argument(
         "-v",
@@ -128,7 +126,7 @@ def main(args):
     args = parse_args(args)
     setup_logging(args.loglevel)
 
-    print(str())
+    print(parse(args.expression))
 
 
 def run():

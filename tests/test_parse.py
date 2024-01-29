@@ -4,7 +4,7 @@ from zoneinfo import ZoneInfo
 import pytest
 import time_machine
 
-from dateexpressions.parse import parse
+from dateexpressions.parse import main, parse
 
 UTC_ZONEINFO = ZoneInfo(key="UTC")
 
@@ -31,10 +31,11 @@ def test_parse():
         parse("now-2M")
 
 
-# def test_main(capsys):
-#     """CLI Tests"""
-#     # capsys is a pytest fixture that allows asserts against stdout/stderr
-#     # https://docs.pytest.org/en/stable/capture.html
-#     main(["7"])
-#     captured = capsys.readouterr()
-#     assert "The 7-th Fibonacci number is 13" in captured.out
+@time_machine.travel(dt.datetime(2024, 1, 2, 14, 15, 16, tzinfo=UTC_ZONEINFO), tick=False)
+def test_main(capsys):
+    """CLI Tests"""
+    # capsys is a pytest fixture that allows asserts against stdout/stderr
+    # https://docs.pytest.org/en/stable/capture.html
+    main(["now-78h/h"])
+    captured = capsys.readouterr()
+    assert "2023-12-30 08:00:00+00:00" in captured.out
