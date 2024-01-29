@@ -12,7 +12,7 @@ Now:
 ;
 
 DeltaStatement: sign=OperationSign value=INT unit=FixedUnit;
-DeltaStatementMonth: '/M' sign=OperationSign value=INT unit='M';
+DeltaStatementMonth: lax=MonthLaxUnit sign=OperationSign value=INT unit='M';
 
 OperationSign: Add | Sub;
 
@@ -21,7 +21,7 @@ Sub: '-';
 
 FixedUnit: /([smhdwy])/;
 FloorStatement: '/' unit=FixedUnit;
-
+MonthLaxUnit: /\/(~)?M/;
 
 Comment:
   /\/\*.*\*\//

@@ -39,7 +39,7 @@ class RelativeDate:
                     ((target_month_since_0 - 1 - target_month) // 12) + 1,
                     target_month,
                     1,
-                    # *self.result.timetuple()[3:6] --maybe with a special syntax?
+                    *[x for x in self.result.timetuple()[3:6] if c.lax == "~"],
                     tzinfo=self.timezone,
                 )
 
