@@ -27,8 +27,14 @@ def test_parse():
         "now-1w/w+4h  /* beginning of last week (-> Monday morning), 4 am */"
     ) == dt.datetime(2024, 1, 15, 4, tzinfo=ZoneInfo(key="UTC"))
 
+    assert parse("now/M-1M  /* beginning of last month */") == dt.datetime(
+        2023, 12, 1, tzinfo=ZoneInfo(key="UTC")
+    )
+
     with pytest.raises(Exception):
-        parse("now-2M")
+        # Because a month is not a fixed duration, Deltas with unit=Month are only
+        # applicable directly after a `Floor to Month` Operation
+        parse("now-1M")
 
 
 @time_machine.travel(dt.datetime(2024, 1, 2, 14, 15, 16, tzinfo=UTC_ZONEINFO), tick=False)

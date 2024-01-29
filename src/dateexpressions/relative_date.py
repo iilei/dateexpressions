@@ -28,8 +28,22 @@ class RelativeDate:
             self.result = datetime.now(self.timezone)
 
         for c in model.statements:
-            if c.__class__.__name__ == "DeltaStatement":
+            if c.__class__.__name__ == "DeltaStatementMonth":
+                current_month_since_0 = self.result.month + self.result.year * 12
+                target_month_since_0 = current_month_since_0 + (
+                    c.value * -1 if c.sign == "-" else c.value
+                )
+                target_month = ((target_month_since_0 - 1) % 12) + 1
 
+                self.result = datetime(
+                    ((target_month_since_0 - 1 - target_month) // 12) + 1,
+                    target_month,
+                    1,
+                    # *self.result.timetuple()[3:6] --maybe with a special syntax?
+                    tzinfo=self.timezone,
+                )
+
+            if c.__class__.__name__ == "DeltaStatement":
                 self.result = self.result + timedelta(
                     **{units[c.unit]: c.value * -1 if c.sign == "-" else c.value}
                 )

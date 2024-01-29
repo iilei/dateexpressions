@@ -4,7 +4,7 @@ Program:
 ;
 
 Statement:
-  DeltaStatement | FloorStatement
+  DeltaStatementMonth | DeltaStatement | FloorStatement
 ;
 
 Now:
@@ -12,6 +12,7 @@ Now:
 ;
 
 DeltaStatement: sign=OperationSign value=INT unit=FixedUnit;
+DeltaStatementMonth: '/M' sign=OperationSign value=INT unit='M';
 
 OperationSign: Add | Sub;
 
@@ -19,9 +20,8 @@ Add: '+';
 Sub: '-';
 
 FixedUnit: /([smhdwy])/;
-FloorUnit: /([smhdwyM])/;
+FloorStatement: '/' unit=FixedUnit;
 
-FloorStatement: '/' unit=FloorUnit;
 
 Comment:
   /\/\*.*\*\//
