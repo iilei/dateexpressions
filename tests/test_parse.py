@@ -22,6 +22,10 @@ def test_parse():
     assert parse("now(Europe/Berlin)-1d/d") == dt.datetime(
         2024, 1, 23, 0, 0, tzinfo=ZoneInfo(key="Europe/Berlin")
     )
+    assert parse("now-1h/h") == dt.datetime(2024, 1, 24, 13, tzinfo=ZoneInfo(key="UTC"))
+    assert parse("now-1w/w+4h  /* beginning of last week, 4 am */") == dt.datetime(
+        2024, 1, 15, 4, tzinfo=ZoneInfo(key="UTC")
+    )
 
     with pytest.raises(Exception):
         parse("now-2M")
