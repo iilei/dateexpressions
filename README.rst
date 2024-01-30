@@ -34,10 +34,27 @@ dateexpressions
 ===============
 
 
-    Add a short description here!
+    Parses relative date expressions so that you can say things like: `now/d` for the beginning of the day.
 
 
-A longer description of your project goes here...
+Inspired by Grafana Date Picker.
+
+Allows for expressing relative date-times in a human friendly way.
+
+.. role:: python(code)
+   :language: python
+
+   from dateexpressions import parse
+
+   parse("now")
+   parse("now/d")
+   parse("now/d+12h")
+
+   # Month simply added like `+6M` ~> Exception
+   # -- as a guard against ambigous expressions
+   # Solvable by doing `/M` so to get deterministic results
+   parse("now/M")
+   parse("now/M+6M")
 
 
 .. _pyscaffold-notes:

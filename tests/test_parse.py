@@ -35,6 +35,10 @@ def test_parse():
         2024, 1, 1, tzinfo=ZoneInfo(key="UTC")
     )
 
+    # assert parse("now/M/y+1y") == dt.datetime(
+    #     2024, 1, 1, tzinfo=ZoneInfo(key="UTC")
+    # )
+
     with pytest.raises(Exception):
         # Because a month is not a fixed duration, Deltas with unit=Month are only
         # applicable directly after a `Floor to Month` Operation
