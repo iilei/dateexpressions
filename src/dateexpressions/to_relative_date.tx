@@ -4,7 +4,7 @@ Program:
 ;
 
 Statement:
-  DeltaStatementMonth | DeltaStatement | FloorStatement
+  DeltaStatementWithFloorMonth | FloorMonthStatement | DeltaStatement | FloorStatement
 ;
 
 Now:
@@ -12,7 +12,9 @@ Now:
 ;
 
 DeltaStatement: sign=OperationSign value=INT unit=FixedUnit;
-DeltaStatementMonth: '/M' sign=OperationSign value=INT unit='M';
+DeltaStatementWithFloorMonth: '/M' sign=OperationSign value=INT unit='M';
+FloorMonthStatement: _='/M';
+
 
 OperationSign: Add | Sub;
 
