@@ -1,30 +1,37 @@
 Program:
-  now=Now?
+  now=Now
   statements*=Statement
-;
-
-Statement:
-  DeltaStatementWithFloorMonth | FloorMonthStatement | DeltaStatement | FloorStatement
 ;
 
 Now:
   timezone = /now(?:\s*\((?:(?:timezone)=)?(?P<timezone>[^\=)]+)\))?/
 ;
 
-DeltaStatement: sign=OperationSign value=INT unit=FixedUnit;
-DeltaStatementWithFloorMonth: '/M' sign=OperationSign value=INT unit='M';
-FloorMonthStatement: _='/M';
-
-
-OperationSign: Add | Sub;
-
-Add: '+';
-Sub: '-';
-
-FixedUnit: /([smhdwy])/;
-FloorStatement: '/' unit=FixedUnit;
-
-
-Comment:
-  /\/\*.*\*\//
+Statement:
+  MonthFloor |
+  YearFloor |
+  FixedDelta |
+  Floor
 ;
+
+FixedDelta:
+  value=INT
+  unit=FixedUnit
+;
+
+FixedUnit: /[smhdw]/;
+Floor: '/' unit=FixedUnit;
+
+WeekdayOfMonthFloor: '|' value=/(mon|tue|wed|thu|fri|sat|sun)/;
+
+MonthDelta: value=INT 'M';
+MonthFloor:
+  '/' unit='M' delta=MonthDelta? day=WeekdayOfMonthFloor?
+;
+
+YearDelta: value=INT 'y';
+YearFloor:
+  '/' unit='y' delta=YearDelta?
+;
+
+Comment: /\/\*.*\*\//;

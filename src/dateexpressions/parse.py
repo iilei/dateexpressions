@@ -57,6 +57,9 @@ def parse(expression: str = "now"):
     return relative_date.interpret(relative_date_model)
 
 
+print(parse("now -3d /M -3M | wed 12h"))
+# parse("now/M-2M|wed")
+
 # ---- CLI ----
 # The functions defined in this section are wrappers around the main Python
 # API allowing them to be called directly from the terminal as a CLI
@@ -148,4 +151,5 @@ if __name__ == "__main__":
     #
     #     python -m dateexpressions.parse "now-1m/m"
     #
-    run()
+    # run()
+    ...
