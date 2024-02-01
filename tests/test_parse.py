@@ -24,9 +24,13 @@ def test_parse():
         2024, 1, 27, tzinfo=UTC_ZONEINFO
     )
 
-    assert parse("now/h+30m+15s /* ... */") == dt.datetime(
-        2024, 1, 27, 14, 30, 15, tzinfo=UTC_ZONEINFO
-    )
+    assert parse(
+        "now/h+30m+15s /* beginning of the current hour, added 30m and 15s */"
+    ) == dt.datetime(2024, 1, 24, 14, 30, 15, tzinfo=UTC_ZONEINFO)
+
+    assert parse(
+        "/h /* beginning of the current hour - 'now' and UTC both are implicit, no need to state it */"
+    ) == dt.datetime(2024, 1, 24, 14, tzinfo=UTC_ZONEINFO)
 
     with pytest.raises(Exception):
         # Because a month is not a fixed duration, Deltas with unit=Month are only

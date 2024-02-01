@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 units = {
+    "s": "seconds",
     "m": "minutes",
     "h": "hours",
     "d": "days",
@@ -31,10 +32,7 @@ class RelativeDate:
 
         for c in model.statements:
             if c.__class__.__name__ in ["FixedDelta"]:
-                if hasattr(c, "unit") and hasattr(c, "value") and units.get(c.unit):
-                    self.result = self.result + timedelta(
-                        **dict([(units[c.unit], c.value)])
-                    )
+                self.result = self.result + timedelta(**dict([(units[c.unit], c.value)]))
 
             if c.__class__.__name__ in ["MonthFloor", "YearFloor", "Floor"]:
                 value = (
