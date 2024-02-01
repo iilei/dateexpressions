@@ -62,15 +62,10 @@ class RelativeDate:
                     mo = (tt[1] + m) % 12
                     self.result = datetime(ye, mo, 1, 0, 0, 0, tzinfo=self.timezone)
 
-                    if day:
-                        wday_result = self.result.timetuple().tm_wday
-                        wday_dest = WEEKDAYS.index(day)
-                        wday_delta = wday_dest - wday_result
-                        self.result = self.result + timedelta(days=wday_delta)
-
-                elif hasattr(c, "unit") and hasattr(c, "value") and units.get(c.unit):
-                    self.result = self.result + timedelta(
-                        **dict([(units[c.unit], value)])
-                    )
+                if day:
+                    wday_result = self.result.timetuple().tm_wday
+                    wday_dest = WEEKDAYS.index(day)
+                    wday_delta = wday_dest - wday_result
+                    self.result = self.result + timedelta(days=(14 + wday_delta) % 7)
 
         return self.result

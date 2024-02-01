@@ -24,6 +24,8 @@ def test_parse():
         2024, 1, 27, tzinfo=UTC_ZONEINFO
     )
 
+    assert parse("now+20d/M:tue") == dt.datetime(2024, 2, 6, tzinfo=UTC_ZONEINFO)
+    assert parse("now+20d/M:sat") == dt.datetime(2024, 2, 3, tzinfo=UTC_ZONEINFO)
     assert parse(
         "now/h+30m+15s /* beginning of the current hour, added 30m and 15s */"
     ) == dt.datetime(2024, 1, 24, 14, 30, 15, tzinfo=UTC_ZONEINFO)
