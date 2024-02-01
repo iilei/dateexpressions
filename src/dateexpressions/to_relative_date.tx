@@ -1,5 +1,5 @@
 Program:
-  now=Now
+  now=Now?
   statements*=Statement
 ;
 

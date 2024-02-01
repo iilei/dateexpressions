@@ -145,7 +145,7 @@ if __name__ == "__main__":
 
     # After installing your project with pip, users can also run your Python
     # modules as scripts via the ``-m`` flag, as defined in PEP 338::
-    #
-    #     python -m dateexpressions.parse "now/M:wed"
-    #
+
+    #     python -m dateexpressions.parse "now/M+2M:sat-1w /* last saturday this month */"
+
     run()
