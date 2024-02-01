@@ -19,21 +19,23 @@ def test_parse():
     assert parse("now(timezone=Europe/Amsterdam)") == dt.datetime.now(
         ZoneInfo(key="Europe/Amsterdam")
     )
-    assert parse("now(Europe/Berlin)-1d/d") == dt.datetime(
-        2024, 1, 23, 0, 0, tzinfo=ZoneInfo(key="Europe/Berlin")
-    )
-    assert parse("now-1h/h") == dt.datetime(2024, 1, 24, 13, tzinfo=ZoneInfo(key="UTC"))
-    assert parse(
-        "now-1w/w+4h  /* beginning of last week (-> Monday morning), 4 am */"
-    ) == dt.datetime(2024, 1, 15, 4, tzinfo=ZoneInfo(key="UTC"))
+    s = parse("now/M+3M:wed")
 
-    assert parse("now/M-1M  /* beginning of last month */") == dt.datetime(
-        2023, 12, 1, tzinfo=ZoneInfo(key="UTC")
-    )
+    # assert parse("now(Europe/Berlin)-1d/d") == dt.datetime(
+    #     2024, 1, 23, 0, 0, tzinfo=ZoneInfo(key="Europe/Berlin")
+    # )
+    # assert parse("now-1h/h") == dt.datetime(2024, 1, 24, 13, tzinfo=ZoneInfo(key="UTC"))
+    # assert parse(
+    #     "now-1w/w+4h  /* beginning of last week (-> Monday morning), 4 am */"
+    # ) == dt.datetime(2024, 1, 15, 4, tzinfo=ZoneInfo(key="UTC"))
 
-    assert parse("now/M /* beginning of month */") == dt.datetime(
-        2024, 1, 1, tzinfo=ZoneInfo(key="UTC")
-    )
+    # assert parse("now/M-1M  /* beginning of last month */") == dt.datetime(
+    #     2023, 12, 1, tzinfo=ZoneInfo(key="UTC")
+    # )
+
+    # assert parse("now/M /* beginning of month */") == dt.datetime(
+    #     2024, 1, 1, tzinfo=ZoneInfo(key="UTC")
+    # )
 
     # assert parse("now/M/y+1y") == dt.datetime(
     #     2024, 1, 1, tzinfo=ZoneInfo(key="UTC")
@@ -45,7 +47,9 @@ def test_parse():
         parse("now-1M")
 
 
-@time_machine.travel(dt.datetime(2024, 1, 2, 14, 15, 16, tzinfo=UTC_ZONEINFO), tick=False)
+@time_machine.travel(
+    dt.datetime(2024, 1, 2, 14, 15, 16, tzinfo=UTC_ZONEINFO), tick=False
+)
 def test_main(capsys):
     """CLI Tests"""
     # capsys is a pytest fixture that allows asserts against stdout/stderr

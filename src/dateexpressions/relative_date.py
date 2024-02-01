@@ -38,8 +38,14 @@ class RelativeDate:
                 unit = c.unit
                 print([c.__class__.__name__, value, unit])
             if c.__class__.__name__ in ["MonthFloor", "YearFloor", "Floor"]:
-                delta = c.delta.value if hasattr(c, "delta") else 0
-                day = c.day.value if hasattr(c, "day") and hasattr(c.day, "value") else 0
+                delta = (
+                    c.delta.value
+                    if hasattr(c, "delta") and hasattr(c.delta, "value")
+                    else 0
+                )
+                day = (
+                    c.day.value if hasattr(c, "day") and hasattr(c.day, "value") else 0
+                )
                 unit = c.unit
                 print([c.__class__.__name__, delta, unit, day])
 
