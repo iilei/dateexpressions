@@ -23,6 +23,8 @@ References:
 import argparse
 import logging
 import sys
+import textwrap
+from datetime import datetime as dt
 from pathlib import Path
 
 from textx import metamodel_from_file
@@ -81,6 +83,54 @@ def parse_args(args):
     )
     parser.add_argument(
         dest="expression", help="relative date expression", type=str, metavar="String"
+    )
+
+    subparsers = parser.add_subparsers(help="sub-command help")
+    parser_preflight = subparsers.add_parser(
+        "preflight",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=textwrap.dedent(
+            """\
+            Allows for preflight runs to validate a given date-expression.
+
+                Requires installation with sub-command dependencies:
+                pip install 'dateexpressions[preflight]'
+
+        """
+        ),
+    )
+    parser_preflight.add_argument(
+        "--cron",
+        dest="cron",
+        help="crontab to evaluate the datexpression with",
+        default="0 3 1,2,17,30,31 1-12 *",
+        type=str,
+        description=textwrap.dedent(
+            """\
+            To answer the question:
+
+                Given the corresponding date-expression is parsed at
+                that times yielded by this cron tab -- what will be
+                returned?
+
+            The default choice is designed so that it covers a good
+            range of datetimes which help to verify the intent of a
+            date-expression.
+
+            It translates to:
+
+                * At 03:00
+                * day-of-month 1, 2, 17, 30, and 31
+                * in every month from January through December
+
+        """
+        ),
+    )
+    parser_preflight.add_argument(
+        "expression", help="The expression for preflight checking"
+    )
+    parser_preflight.add_argument(
+        "--max-results", default=7, type=int, help="how many checks to run"
     )
     parser.add_argument(
         "-v",
