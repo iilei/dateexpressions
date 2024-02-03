@@ -15,6 +15,7 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-from .parse import parse
+from .parse import parse as isoformat
+from .parse import preflight
 
-__all__ = ["parse"]
+__all__ = ["isoformat", "preflight"]

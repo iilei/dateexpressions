@@ -21,12 +21,19 @@ References:
 """
 
 import argparse
+import json
 import logging
 import sys
 import textwrap
+from datetime import datetime
 from datetime import datetime as dt
+from datetime import timedelta
 from pathlib import Path
+from types import NoneType
+from typing import Union
+from zoneinfo import ZoneInfo
 
+from croniter import croniter
 from textx import metamodel_from_file
 
 from dateexpressions import __version__
@@ -51,12 +58,25 @@ _logger = logging.getLogger(__name__)
 # when using this Python module as a library.
 
 
-def parse(expression: str = "now"):
-    relative_date_model = relative_date_meta_model.model_from_str(expression)
+def parse(expression: str, now: Union[datetime, NoneType] = None):
+    relative_date_model = relative_date_meta_model.model_from_str(expression or "now")
 
-    relative_date = RelativeDate()
+    relative_date = RelativeDate(now)
     _logger.debug(f"{expression=}")
     return relative_date.interpret(relative_date_model)
+
+
+assert parse("", dt(1984, 1, 1))
+
+
+def preflight(cron: str, expression: str, max_results: int):
+    base = datetime.now(ZoneInfo("UTC"))
+    itr = croniter(cron, base, max_years_between_matches=3)
+
+    return [
+        parse(expression=expression, now=itr.get_next(datetime))
+        for _ in range(0, max_results)
+    ]
 
 
 # ---- CLI ----
@@ -76,20 +96,13 @@ def parse_args(args):
       :obj:`argparse.Namespace`: command line parameters namespace
     """
     parser = argparse.ArgumentParser(description="Parse Relative Date Expressions")
-    parser.add_argument(
-        "--version",
-        action="version",
-        version=f"dateexpressions {__version__}",
-    )
-    parser.add_argument(
-        dest="expression", help="relative date expression", type=str, metavar="String"
-    )
 
-    subparsers = parser.add_subparsers(help="sub-command help")
+    subparsers = parser.add_subparsers(help="preflight or isoformat")
+
     parser_preflight = subparsers.add_parser(
         "preflight",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        description=textwrap.dedent(
+        help=textwrap.dedent(
             """\
             Allows for preflight runs to validate a given date-expression.
 
@@ -99,14 +112,15 @@ def parse_args(args):
         """
         ),
     )
+
     parser_preflight.add_argument(
         "--cron",
-        dest="cron",
-        help="crontab to evaluate the datexpression with",
         default="0 3 1,2,17,30,31 1-12 *",
         type=str,
-        description=textwrap.dedent(
+        help=textwrap.dedent(
             """\
+            crontab to evaluate the datexpression with
+
             To answer the question:
 
                 Given the corresponding date-expression is parsed at
@@ -127,11 +141,21 @@ def parse_args(args):
         ),
     )
     parser_preflight.add_argument(
-        "expression", help="The expression for preflight checking"
+        "--max-results", default=3, type=int, help="how many checks to run"
     )
-    parser_preflight.add_argument(
-        "--max-results", default=7, type=int, help="how many checks to run"
+    subparsers.add_parser(
+        "isoformat", help="yields the result of a given date expression in isoformat."
     )
+    parser.add_argument(
+        "expression", help="relative date expression", type=str, metavar="String"
+    )
+
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"dateexpressions {__version__}",
+    )
+
     parser.add_argument(
         "-v",
         "--verbose",
@@ -148,6 +172,7 @@ def parse_args(args):
         action="store_const",
         const=logging.DEBUG,
     )
+
     return parser.parse_args(args)
 
 
@@ -176,7 +201,25 @@ def main(args):
     args = parse_args(args)
     setup_logging(args.loglevel)
 
-    print(parse(args.expression))
+    if hasattr(args, "cron"):
+        print(
+            json.dumps(
+                {
+                    "expression": args.expression,
+                    "cron": args.cron,
+                    "yields": [
+                        x.isoformat()
+                        for x in preflight(
+                            cron=args.cron,
+                            expression=args.expression,
+                            max_results=args.max_results,
+                        )
+                    ],
+                }
+            )
+        )
+    else:
+        print(parse(args.expression).isoformat())
 
 
 def run():

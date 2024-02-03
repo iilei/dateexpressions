@@ -34,4 +34,6 @@ YearFloor:
   '/' unit='y' delta=YearDelta?
 ;
 
-Comment: /\/\*.*\*\//;
+Comment:
+  /(\/(?!<["'])\*(.|\n)*?\*\/(?!["']))|(\/\/.*)/
+;

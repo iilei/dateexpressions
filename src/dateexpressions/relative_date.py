@@ -1,4 +1,6 @@
 from datetime import datetime, timedelta
+from types import NoneType, UnionType
+from typing import Union
 from zoneinfo import ZoneInfo
 
 units = {
@@ -15,20 +17,17 @@ EARLIEST_FLOOR = [1, 1, 1, 0, 0, 0, 0]
 
 
 class RelativeDate:
-    def __init__(self):
+    def __init__(self, now: Union[datetime, NoneType] = None, **kwargs):
+        print(**kwargs)
         self.timezone = ZoneInfo("UTC")
-        self.result = datetime.now(self.timezone)
-        self.yield_fmt = "%Y-%m-%d %H:%M:%S"
+        self.now = now or datetime.now(self.timezone)
+        self.result = self.now
         self.positions = ["y", "M", "d", "h", "m", "s"]
-
-    def __str__(self):
-        return self.result.strftime(self.yield_fmt)
 
     def interpret(self, model):
         if model.now:
             if model.now.timezone:
                 self.timezone = ZoneInfo(model.now.timezone)
-            self.result = datetime.now(self.timezone)
 
         for c in model.statements:
             if c.__class__.__name__ in ["FixedDelta"]:
