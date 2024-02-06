@@ -9,6 +9,7 @@ Now:
 
 Statement:
   MonthFloor |
+  WeekFloor |
   YearFloor |
   FixedDelta |
   Floor
@@ -27,6 +28,11 @@ WeekdayOfMonthFloor: ':' value=/(mon|tue|wed|thu|fri|sat|sun)/;
 MonthDelta: value=INT 'M';
 MonthFloor:
   '/' unit='M' delta=MonthDelta? day=WeekdayOfMonthFloor?
+;
+
+WeekDelta: value=INT 'w';
+WeekFloor:
+  '/' unit='M' delta=WeekDelta?
 ;
 
 YearDelta: value=INT 'y';
