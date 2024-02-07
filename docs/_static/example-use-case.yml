@@ -1,0 +1,42 @@
+---
+send_report_job:
+  schedule: 0 0 1 * *    # At 00:00 on day-of-month 1
+
+  # `/M :sat` ~> first saturday of the month
+  # `-1w` minus one week ~> implies last saturday of the month before
+  # time resolution `d` ~> zero hours, zero minutes, zero seconds ...
+  # comparison using '>='
+  min_date_inclusive: |-
+    now /M:sat -1w
+    /*
+      last saturday of last month
+    */
+  # adding one day to cover all of the respective day
+  # comparison using '<'
+  max_date_exclusive: |-
+    now /M+1M:sat -1w +1d
+    /*
+      last saturday of the current month,
+      full day (by adding one day)
+    */
+
+  notes: |-
+    This Job is scheduled to run at the first day of the month.
+    If triggered manually at random times the reported time frame is
+    equal to the time frame of a scheduled run:
+
+    Aggregation of a report on the time frame between
+    past month's last saturday and this months last saturday.
+
+    To verify an arbitrary relative date expression for a
+    number of upcoming points in time, run:
+
+    ```sh
+      date-expression preflight \
+          --max-results 5 \
+          --cron '0 0 1 * *' \
+          'now /* add modifiers here ... */' |
+          jq '.yields | unique'
+    ```
+
+    -- requires `jq` json parser and pip package `dateexpressions[preflight]`

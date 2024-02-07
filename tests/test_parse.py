@@ -40,6 +40,32 @@ def test_parse():
     assert parse("now/M+1M").isoformat() == "2024-02-01T00:00:00+00:00"
     assert parse("now/y+1y").isoformat() == "2025-01-01T00:00:00+00:00"
 
+    # use case as described at the docs:
+    assert (
+        parse(
+            """
+    now /M :sat -1w
+    /*
+      last saturday of last month
+    */
+    """
+        ).isoformat()
+        == "2023-12-30T00:00:00+00:00"
+    )
+    assert (
+        parse(
+            """
+    now /M+1M :sat -1w +1d
+    /*
+      last saturday of the current month,
+      full day (by adding one day)
+    */
+    """
+        ).isoformat()
+        == "2024-01-28T00:00:00+00:00"
+    )
+    # ****************
+
     assert (
         parse("now/M+1M:sat-1w /** last saturday of the month **/").isoformat()
         == "2024-01-27T00:00:00+00:00"
