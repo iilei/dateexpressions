@@ -49,3 +49,6 @@ jobs:
       - name: Test all test cases with pytest
         run: |
           pytest
+      - name: Text CLI availability
+        run: |
+          date-expression --version
