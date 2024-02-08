@@ -41,7 +41,11 @@ try:
 except ImportError:
     NoneType = None.__class__
 
-from croniter import croniter
+try:
+    from croniter import croniter
+except ImportError:
+    croniter = None
+
 from textx import metamodel_from_file
 
 from dateexpressions import __version__
@@ -78,6 +82,10 @@ assert parse("", dt(1984, 1, 1))
 
 
 def preflight(cron: str, expression: str, max_results: int):
+    if not croniter:
+        raise EnvironmentError(
+            "Unmet dependency. Did you install with [preflight] module?"
+        )
     base = datetime.now(ZoneInfo("UTC"))
     itr = croniter(cron, base, max_years_between_matches=3)
 
