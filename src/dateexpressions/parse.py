@@ -29,9 +29,15 @@ from datetime import datetime
 from datetime import datetime as dt
 from datetime import timedelta
 from pathlib import Path
-from types import NoneType
 from typing import Union
-from zoneinfo import ZoneInfo
+
+try:
+    from types import NoneType
+    from zoneinfo import ZoneInfo
+except ImportError:
+    from backports.zoneinfo import ZoneInfo
+
+    NoneType = None.__class__
 
 from croniter import croniter
 from textx import metamodel_from_file

@@ -1,7 +1,14 @@
 from datetime import datetime, timedelta
-from types import NoneType, UnionType
 from typing import Union
-from zoneinfo import ZoneInfo
+
+try:
+    from types import NoneType
+    from zoneinfo import ZoneInfo
+except ImportError:
+    from backports.zoneinfo import ZoneInfo
+
+    NoneType = None.__class__
+
 
 units = {
     "s": "seconds",

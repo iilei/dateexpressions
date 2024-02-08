@@ -1,10 +1,14 @@
 import datetime as dt
 import json
 from unittest.mock import patch
-from zoneinfo import ZoneInfo
 
 import pytest
 import time_machine
+
+try:
+    from zoneinfo import ZoneInfo
+except ImportError:
+    from backports.zoneinfo import ZoneInfo
 
 from dateexpressions.parse import main, parse, run
 
