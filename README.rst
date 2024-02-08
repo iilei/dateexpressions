@@ -27,7 +27,13 @@
     :alt: Project generated with PyScaffold
     :target: https://pyscaffold.org/
 
+.. image:: https://github.com/iilei/dateexpressions/actions/workflows/python-package.yml/badge.svg
+    :alt: Python package
+    :target: https://github.com/iilei/dateexpressions/actions/workflows/python-package.yml
+
+
 |
+
 
 ===============
 dateexpressions
