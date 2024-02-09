@@ -48,23 +48,23 @@ def test_parse():
     assert (
         parse(
             """
-    now /M :sat -1w
-    /*
-      last saturday of last month
-    */
-    """
+                now /M :sat -1w
+                /*
+                last saturday of last month
+                */
+            """
         ).isoformat()
         == "2023-12-30T00:00:00+00:00"
     )
     assert (
         parse(
             """
-    now /M+1M :sat -1w +1d
-    /*
-      last saturday of the current month,
-      full day (by adding one day)
-    */
-    """
+                now /M+1M :sat -1w +1d
+                /*
+                last saturday of the current month,
+                full day (by adding one day)
+                */
+            """
         ).isoformat()
         == "2024-01-28T00:00:00+00:00"
     )
@@ -89,13 +89,13 @@ def test_parse():
     assert (
         parse(
             """
-        /h
-        /*
-           beginning of the current hour
-           -- 'now' and UTC both are implicit,
-           no need to state it
-        */
-        +2m
+                /h
+                /*
+                beginning of the current hour
+                -- 'now' and UTC both are implicit,
+                no need to state it
+                */
+                +2m
         """
         )
         == dt.datetime(2024, 1, 24, 14, 2, tzinfo=UTC_ZONEINFO)
@@ -107,8 +107,8 @@ def test_parse():
         parse("now-1M")
 
     with pytest.raises(Exception):
-        # Because a month is not a fixed duration, Deltas with unit=Month are only
-        # applicable directly after a `Floor to Month` Operation
+        # Because a year is not a fixed duration, Deltas with unit=year are only
+        # applicable directly after a `Floor to Year` Operation
         parse("now-1y")
 
 
