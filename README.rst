@@ -52,16 +52,27 @@ Allows for expressing relative date-times in a human friendly way.
 
    from dateexpressions import parse
 
-   parse("now")
-   parse("now/d")
-   parse("now/d+12h")
+   # give me the last saturday of last month --
+   # returning predictable results regardless of
+   # when it get executed
+   parse("""
+            now /M :sat -1w
+            /*
+                ^ last saturday of last month
+            */
+    """)
 
-   # Month simply added like `+6M` ~> Exception
-   # -- as a guard against ambigous expressions
-   # Solvable by doing `/M` so to get deterministic results
-   parse("now/M")
-   parse("now/M+6M")
 
+CLI Usage
+============
+
+The above via cli: `date-expression isoformat 'now /M :sat -1w'`
+
+The Optional `preflight` module can be installed on-demand, like `pip install dateexpressions[preflight]`.
+
+This allows to verify a date-expression: ``date-expression preflight --cron '0 3 1,2,17,30,31 1-12 *' 'now-78h/h'``
+
+Check out the `Specs </tests>`_ for more usage scenarios.
 
 Local Development
 ----------------------
