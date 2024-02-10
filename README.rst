@@ -41,7 +41,7 @@ dateexpressions
 ===============
 
 
-    Parses relative date expressions so that you can say things like: `now/d` for the beginning of the day.
+    Parses relative date expressions so that you can say things like: ``now/d`` for the beginning of the day.
 
 
 Inspired by Grafana Date Picker.
@@ -66,9 +66,11 @@ Allows for expressing relative date-times in a human friendly way.
 CLI Usage
 ============
 
-The above via cli: `date-expression isoformat 'now /M :sat -1w'`
+The above via cli:
 
-The Optional `preflight` module can be installed on-demand, like `pip install dateexpressions[preflight]`.
+``date-expression isoformat 'now /M :sat -1w'``
+
+The Optional ``preflight`` module can be installed on-demand, like ``pip install dateexpressions[preflight]``.
 
 This allows to verify a date-expression: ``date-expression preflight --cron '0 3 1,2,17,30,31 1-12 *' 'now-78h/h'``
 
