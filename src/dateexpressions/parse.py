@@ -27,7 +27,6 @@ import sys
 import textwrap
 from datetime import datetime
 from datetime import datetime as dt
-from datetime import timedelta
 from pathlib import Path
 from typing import Union
 
@@ -45,6 +44,7 @@ try:
     from croniter import croniter
 except ImportError:
     croniter = None
+
 
 from textx import metamodel_from_file
 
@@ -99,8 +99,6 @@ def preflight(cron: str, expression: str, max_results: int):
 # The functions defined in this section are wrappers around the main Python
 # API allowing them to be called directly from the terminal as a CLI
 # executable/script.
-
-
 def parse_args(args):
     """Parse command line parameters
 
