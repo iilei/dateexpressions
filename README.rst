@@ -58,7 +58,7 @@ Allows for expressing relative date-times in a human friendly way.
    parse("""
             now /M :sat -1w
             /*
-                ^ last saturday of last month
+                ^ last saturday of pervious month
             */
     """)
 
