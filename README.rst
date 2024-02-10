@@ -23,16 +23,17 @@
         :alt: Twitter
         :target: https://twitter.com/dateexpressions
 
-.. image:: https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold
-    :alt: Project generated with PyScaffold
-    :target: https://pyscaffold.org/
 
 .. image:: https://github.com/iilei/dateexpressions/actions/workflows/python-package.yml/badge.svg
     :alt: Python package
     :target: https://github.com/iilei/dateexpressions/actions/workflows/python-package.yml
+    :align: right
 
+.. image:: https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold
+    :alt: Project generated with PyScaffold
+    :target: https://pyscaffold.org/
+    :align: right
 
-|
 
 
 ===============
@@ -47,8 +48,7 @@ Inspired by Grafana Date Picker.
 
 Allows for expressing relative date-times in a human friendly way.
 
-.. role:: python(code)
-   :language: python
+.. code-block:: python
 
    from dateexpressions import parse
 
@@ -63,10 +63,11 @@ Allows for expressing relative date-times in a human friendly way.
    parse("now/M+6M")
 
 
-.. _pyscaffold-notes:
+Local Development
+----------------------
 
-Note
-====
+Run all Tests, all Python Versions:
 
-This project has been set up using PyScaffold 4.5. For details and usage
-information on PyScaffold see https://pyscaffold.org/.
+.. code-block:: sh
+
+   tox
