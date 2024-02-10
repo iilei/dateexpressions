@@ -1,11 +1,10 @@
-.. image:: https://github.com/iilei/dateexpressions/actions/workflows/python-package.yml/badge.svg
-    :alt: Python package
-    :target: https://github.com/iilei/dateexpressions/actions/workflows/python-package.yml
-
-
 .. image:: https://img.shields.io/badge/-PyScaffold-005CA0?logo=pyscaffold
     :alt: Project generated with PyScaffold
     :target: https://pyscaffold.org/
+
+.. image:: https://github.com/iilei/dateexpressions/actions/workflows/python-package.yml/badge.svg
+    :alt: Python package
+    :target: https://github.com/iilei/dateexpressions/actions/workflows/python-package.yml
 
 
 .. image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit
@@ -39,11 +38,16 @@ Allows for expressing relative date-times in a human friendly way.
             */
     """)
 
+------------------------------------
+
+Parser Details
+====================================
+
 .. image:: src/dateexpressions/svg/to_relative_date.svg
     :alt: How the Syntax is interpreted - Diagram
     :target: src/dateexpressions/to_relative_date.puml
-    :align: right
 
+------------
 
 CLI Usage
 ============
