@@ -23,7 +23,11 @@ FixedDelta:
 FixedUnit: /[smhdw]/;
 Floor: '/' unit=FixedUnit;
 
-WeekdayOfMonthFloor: ':' value=/(mon|tue|wed|thu|fri|sat|sun)/;
+WeekDayShortString:
+  'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun'
+;
+
+WeekdayOfMonthFloor: ':' value=WeekDayShortString;
 
 MonthDelta: value=INT 'M';
 MonthFloor:

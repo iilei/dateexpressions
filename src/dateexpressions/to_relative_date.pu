@@ -27,7 +27,7 @@ class to_relative_date.Floor  {
 
 
 class to_relative_date.WeekdayOfMonthFloor  {
-  value : STRING
+  value : WeekDayShortString
 }
 
 
@@ -76,8 +76,9 @@ to_relative_date.YearFloor *--> to_relative_date.YearDelta: delta
 legend
   Match rules:
   |= Name  |= Rule details |
-  | FixedUnit | [smhdw] |
   | Comment | (\\/(\?!\<[\"'])\\*(.\|\\n)*\?\\*\\/(\?![\"']))\|(\\/\\/.*) |
+  | FixedUnit | [smhdw] |
+  | WeekDayShortString | mon\|tue\|wed\|thu\|fri\|sat\|sun |
 end legend
 
 @enduml
