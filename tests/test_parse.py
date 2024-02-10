@@ -39,6 +39,15 @@ def test_parse_floor_and_shift_units():
 
 
 @time_machine.travel(SOME_DAY, tick=False)
+def test_shift_units():
+    assert parse("now+1s").isoformat() == "2024-01-24T14:15:17+00:00"
+    assert parse("now+1m").isoformat() == "2024-01-24T14:16:16+00:00"
+    assert parse("now+1h").isoformat() == "2024-01-24T15:15:16+00:00"
+    assert parse("now+1d").isoformat() == "2024-01-25T14:15:16+00:00"
+    assert parse("now+1w").isoformat() == "2024-01-31T14:15:16+00:00"
+
+
+@time_machine.travel(SOME_DAY, tick=False)
 def test_weekdays():
     assert parse("now/M+1M:mon").isoformat() == "2024-02-05T00:00:00+00:00"
     assert parse("now/M+1M:tue").isoformat() == "2024-02-06T00:00:00+00:00"
