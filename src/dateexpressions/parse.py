@@ -83,16 +83,11 @@ assert parse("", dt(1984, 1, 1))
 
 def preflight(cron: str, expression: str, max_results: int):
     if not croniter:
-        raise EnvironmentError(
-            "Unmet dependency. Did you install with [preflight] module?"
-        )
+        raise EnvironmentError("Unmet dependency. Did you install with [preflight] module?")
     base = datetime.now(ZoneInfo("UTC"))
     itr = croniter(cron, base, max_years_between_matches=3)
 
-    return [
-        parse(expression=expression, now=itr.get_next(datetime))
-        for _ in range(0, max_results)
-    ]
+    return [parse(expression=expression, now=itr.get_next(datetime)) for _ in range(0, max_results)]
 
 
 # ---- CLI ----
@@ -154,15 +149,9 @@ def parse_args(args):
         """
         ),
     )
-    parser_preflight.add_argument(
-        "--max-results", default=3, type=int, help="how many checks to run"
-    )
-    subparsers.add_parser(
-        "isoformat", help="yields the result of a given date expression in isoformat."
-    )
-    parser.add_argument(
-        "expression", help="relative date expression", type=str, metavar="String"
-    )
+    parser_preflight.add_argument("--max-results", default=3, type=int, help="how many checks to run")
+    subparsers.add_parser("isoformat", help="yields the result of a given date expression in isoformat.")
+    parser.add_argument("expression", help="relative date expression", type=str, metavar="String")
 
     parser.add_argument(
         "--version",
@@ -197,9 +186,7 @@ def setup_logging(loglevel):
       loglevel (int): minimum loglevel for emitting messages
     """
     logformat = "[%(asctime)s] %(levelname)s:%(name)s:%(message)s"
-    logging.basicConfig(
-        level=loglevel, stream=sys.stdout, format=logformat, datefmt="%Y-%m-%d %H:%M:%S"
-    )
+    logging.basicConfig(level=loglevel, stream=sys.stdout, format=logformat, datefmt="%Y-%m-%d %H:%M:%S")
 
 
 def main(args):

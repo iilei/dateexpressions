@@ -65,9 +65,7 @@ def test_tz_aware():
 
 @time_machine.travel(SOME_DAY, tick=False)
 def test_tz_aware_named_param():
-    assert parse("now(timezone=Europe/Amsterdam)") == dt.datetime.now(
-        ZoneInfo(key="Europe/Amsterdam")
-    )
+    assert parse("now(timezone=Europe/Amsterdam)") == dt.datetime.now(ZoneInfo(key="Europe/Amsterdam"))
 
 
 def test_no_naive_month():

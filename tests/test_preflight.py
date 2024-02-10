@@ -18,9 +18,7 @@ SOME_DAY = dt.datetime(2024, 1, 24, 14, 15, 16, tzinfo=UTC_ZONEINFO)
 def test_preflight():
     """CLI Tests"""
 
-    result = preflight(
-        expression="now/M+1M:sat-1w", cron="13 3 28-31 * *", max_results=12
-    )
+    result = preflight(expression="now/M+1M:sat-1w", cron="13 3 28-31 * *", max_results=12)
 
     assert result == [
         *[dt.datetime(2024, 1, 27, tzinfo=UTC_ZONEINFO)] * 4,

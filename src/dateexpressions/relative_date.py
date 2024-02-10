@@ -42,24 +42,14 @@ class RelativeDate:
                 self.result = self.result + timedelta(**dict([(units[c.unit], c.value)]))
 
             if c.__class__.__name__ in ["MonthFloor", "YearFloor", "WeekFloor", "Floor"]:
-                value = (
-                    c.delta.value
-                    if hasattr(c, "delta") and hasattr(c.delta, "value")
-                    else 0
-                )
-                day = (
-                    c.day.value
-                    if hasattr(c, "day") and hasattr(c.day, "value")
-                    else False
-                )
+                value = c.delta.value if hasattr(c, "delta") and hasattr(c.delta, "value") else 0
+                day = c.day.value if hasattr(c, "day") and hasattr(c.day, "value") else False
                 unit = c.unit
                 tt = [*self.result.timetuple()]
 
                 # 'w' for week is not in the list of positions but in this regard,
                 # it equates to beginning of the day
-                resolution = (
-                    self.positions.index(unit if unit in self.positions else "d") + 1
-                )
+                resolution = self.positions.index(unit if unit in self.positions else "d") + 1
 
                 floored = [*tt[0:resolution], *EARLIEST_FLOOR[resolution:]]
 
@@ -73,9 +63,7 @@ class RelativeDate:
                     mo = (tt[1] + m) % 12
                     self.result = datetime(ye, mo, 1, 0, 0, 0, tzinfo=self.timezone)
                 elif unit == "w":
-                    self.result = self.result + timedelta(
-                        days=value * 7 - self.result.timetuple().tm_wday
-                    )
+                    self.result = self.result + timedelta(days=value * 7 - self.result.timetuple().tm_wday)
                 if day:
                     wday_result = self.result.timetuple().tm_wday
                     wday_dest = WEEKDAYS.index(day)

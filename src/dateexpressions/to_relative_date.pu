@@ -1,0 +1,83 @@
+@startuml
+set namespaceSeparator .
+
+
+class to_relative_date.Program  {
+}
+
+
+class to_relative_date.Now  {
+  timezone : STRING
+}
+
+
+class to_relative_date.Statement <<abstract>> {
+}
+
+
+class to_relative_date.FixedDelta  {
+  value : INT
+  unit : FixedUnit
+}
+
+
+class to_relative_date.Floor  {
+  unit : FixedUnit
+}
+
+
+class to_relative_date.WeekdayOfMonthFloor  {
+  value : STRING
+}
+
+
+class to_relative_date.MonthDelta  {
+  value : INT
+}
+
+
+class to_relative_date.MonthFloor  {
+  unit : STRING
+}
+
+
+class to_relative_date.WeekDelta  {
+  value : INT
+}
+
+
+class to_relative_date.WeekFloor  {
+  unit : STRING
+}
+
+
+class to_relative_date.YearDelta  {
+  value : INT
+}
+
+
+class to_relative_date.YearFloor  {
+  unit : STRING
+}
+
+
+to_relative_date.Program *--> to_relative_date.Now: now
+to_relative_date.Program *--> to_relative_date.Statement: statements 0..*
+to_relative_date.Statement <|-- to_relative_date.MonthFloor
+to_relative_date.Statement <|-- to_relative_date.WeekFloor
+to_relative_date.Statement <|-- to_relative_date.YearFloor
+to_relative_date.Statement <|-- to_relative_date.FixedDelta
+to_relative_date.Statement <|-- to_relative_date.Floor
+to_relative_date.MonthFloor *--> to_relative_date.MonthDelta: delta
+to_relative_date.MonthFloor *--> to_relative_date.WeekdayOfMonthFloor: day
+to_relative_date.WeekFloor *--> to_relative_date.WeekDelta: delta
+to_relative_date.YearFloor *--> to_relative_date.YearDelta: delta
+
+legend
+  Match rules:
+  |= Name  |= Rule details |
+  | FixedUnit | [smhdw] |
+  | Comment | (\\/(\?!\<[\"'])\\*(.\|\\n)*\?\\*\\/(\?![\"']))\|(\\/\\/.*) |
+end legend
+
+@enduml
