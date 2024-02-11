@@ -17,12 +17,13 @@ dateexpressions
 ===============
 
 
-    Parses relative date expressions so that you can say things like: ``now/d`` for the beginning of the day.
+    Allows for expressing relative date-times in a human friendly way.
 
 
 Inspired by Grafana Date Picker.
 
-Allows for expressing relative date-times in a human friendly way.
+Parses relative date expressions so that you can say things like: ``now/d`` for the beginning of the day.
+
 
 .. code-block:: python
 
@@ -49,6 +50,8 @@ Parser Details
 
 ------------
 
+
+
 CLI Usage
 ============
 
@@ -58,7 +61,8 @@ The above via cli:
 
 The Optional ``preflight`` module can be installed on-demand, like ``pip install dateexpressions[preflight]``.
 
-This allows to verify a date-expression: ``date-expression preflight --cron '0 3 1,2,17,30,31 1-12 *' 'now-78h/h'``
+This allows to verify a date-expression:
+``date-expression preflight --cron '0 3 1,2,17,30,31 1-12 *' 'now-78h/h'``
 
 Check out the `Specs </tests>`_ for more usage scenarios.
 
@@ -70,3 +74,9 @@ Run all Tests, all Python Versions:
 .. code-block:: sh
 
    tox
+
+
+Credits
+---------------------------
+* `textX <https://github.com/textX/textX>`_ which is used for building the Domain-Specific Language Interpreter
+* Date range Picker keywords as seen in `Grafana <https://grafana.com/grafana/>`_
