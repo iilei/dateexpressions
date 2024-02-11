@@ -71,6 +71,8 @@ Parser Details
      - Beginning of the hour
    * - ``/d``
      - Beginning of the day
+   * - ``/w``
+     - Beginning of the week
    * - ``/M``
      - Beginning of the month
    * - ``/y``
@@ -82,8 +84,8 @@ Parser Details
 
    * - Pattern
      - Description
-   * - ``<INT>[smhd]``
-     - Time Delta to apply. (second, minute, hour, day)
+   * - ``<INT>[smhdw]``
+     - Time Delta to apply. (second, minute, hour, day, week)
        <INT> ~> positive or negative number
    * - ``/M<INT>M``
      - Month Delta to apply, once the beginning of the respective month is determined.
