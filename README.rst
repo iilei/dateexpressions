@@ -98,19 +98,25 @@ Parser Details
 
 
 
-CLI Usage
-============
+CLI Usage: isoformat
+======================
 
 The above via cli:
 
 ``date-expression isoformat 'now /M :sat -1w'``
+
+CLI Usage: preflight
+======================
 
 The Optional ``preflight`` module can be installed on-demand, like ``pip install dateexpressions[preflight]``.
 
 This allows to verify a date-expression:
 ``date-expression preflight --cron '0 3 1,2,17,30,31 1-12 *' 'now-78h/h'``
 
-Check out the `Specs </tests>`_ for more usage scenarios.
+Scenarios covered
+======================
+
+Check out the `Specs </tests>`_ for a variety of usage scenarios.
 
 Local Development
 ----------------------
