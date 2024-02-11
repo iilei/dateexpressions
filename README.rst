@@ -12,6 +12,12 @@
    :alt: pre-commit
 
 
+.. warning::
+
+   Regardless of what is stated in the text below, at the moment this Package has not yet been released on pypi.org.
+
+
+
 ===============
 dateexpressions
 ===============
@@ -20,16 +26,14 @@ dateexpressions
     Allows for expressing relative date-times in a human friendly way.
 
 
-Inspired by Grafana Date Picker.
+Inspired by Grafana Date Picker; parses relative date expressions that are
+easily understood by humans and address typical configuration needs.
 
-Parses relative date expressions so that you can say things like: ``now/d`` for the beginning of the day.
-
-
-.. code-block:: python
+.. code:: python
 
    from dateexpressions import parse
 
-   # give me the last saturday of last month --
+   # Last saturday of last month --
    # returning predictable results regardless of
    # when it get executed
    parse("""
@@ -78,6 +82,7 @@ Parser Details
    * - ``/y``
      - Beginning of the year
 
+
 .. list-table:: Time-Delta Syntax
    :widths: 30 70
    :header-rows: 1
@@ -87,6 +92,8 @@ Parser Details
    * - ``<INT>[smhdw]``
      - Time Delta to apply. (second, minute, hour, day, week)
        <INT> ~> positive or negative number
+   * - ``/M<``
+     - Beginning of the month.
    * - ``/M<INT>M``
      - Month Delta to apply, once the beginning of the respective month is determined.
        <INT> ~> positive or negative number
@@ -97,23 +104,58 @@ Parser Details
    * - ``/y<INT>y``
      - Year Delta to apply, once the beginning of the respective year is determined.
        <INT> ~> positive or negative number
+   * -
+     - **Note:** Except from the ability to clamp to weekdays, The Syntax
+       for Year and Month deltas is interchangable.
 
-
+The requirement to 'floor' to the beginning of Year or Month before adding a delta is to rule
+out any potential for confusion.
 
 CLI Usage: isoformat
 ======================
 
-The above via cli:
+Simple Example:
 
-``date-expression isoformat 'now /M :sat -1w'``
+.. code:: shell
+
+   date-expression isoformat 'now /M :sat -1w'
 
 CLI Usage: preflight
 ======================
 
 The Optional ``preflight`` module can be installed on-demand, like ``pip install dateexpressions[preflight]``.
 
-This allows to verify a date-expression:
-``date-expression preflight --cron '0 3 1,2,17,30,31 1-12 *' 'now-78h/h'``
+To verify a date-expression provide the ``preflight`` job with a ``cron`` expression, optional ``max-results``
+and the date-expression you wish to see in action:
+
+.. code:: shell
+
+   date-expression preflight \
+      --cron '13 3 28-31 * *' \
+      --max-results 9 \
+      'now/M+1M:sat-1w'
+
+
+Example Result, prettified (by piping it to ``jq '.'``):
+
+.. code:: json
+
+   {
+     "expression": "now/M+1M:sat-1w",
+     "cron": "13 3 28-31 * *",
+     "yields": [
+       "2024-02-24T00:00:00+00:00",
+       "2024-02-24T00:00:00+00:00",
+       "2024-03-30T00:00:00+00:00",
+       "2024-03-30T00:00:00+00:00",
+       "2024-03-30T00:00:00+00:00",
+       "2024-03-30T00:00:00+00:00",
+       "2024-04-27T00:00:00+00:00",
+       "2024-04-27T00:00:00+00:00",
+       "2024-04-27T00:00:00+00:00"
+     ]
+   }
+
 
 Scenarios covered
 ======================

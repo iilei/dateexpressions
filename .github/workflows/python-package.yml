@@ -53,3 +53,6 @@ jobs:
       - name: Verify CLI availability
         run: |
           date-expression --version
+
+      # - name: Coverage Badge
+      #   uses: we-cli/coverage-badge-action@v1.0.1
