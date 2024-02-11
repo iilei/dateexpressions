@@ -87,11 +87,9 @@ def test_multiline_inline_comments():
     assert (
         parse(
             """
-                /h
+                now /h
                 /*
                 beginning of the current hour
-                -- 'now' and UTC both are implicit,
-                no need to state it
                 */
                 +2m
                 /* just because */

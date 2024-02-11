@@ -51,6 +51,52 @@ Parser Details
 ------------
 
 
+.. list-table:: Basic Syntax
+   :widths: 30 70
+   :header-rows: 1
+
+   * - Pattern
+     - Description
+   * - ``now``
+     - UTC Timezone-Aware Reference point to start with
+   * - ``now(Europe/Berlin)``
+     - Timezone-Aware Reference point to start with, as per value given
+   * - ``now(timezone=Europe/Amsterdam)``
+     - Timezone-Aware Reference point to start with, as per value given
+   * - ``/s``
+     - Beginning of the second
+   * - ``/m``
+     - Beginning of the minute
+   * - ``/h``
+     - Beginning of the hour
+   * - ``/d``
+     - Beginning of the day
+   * - ``/M``
+     - Beginning of the month
+   * - ``/y``
+     - Beginning of the year
+
+.. list-table:: Time-Delta Syntax
+   :widths: 30 70
+   :header-rows: 1
+
+   * - Pattern
+     - Description
+   * - ``<INT>[smhd]``
+     - Time Delta to apply. (second, minute, hour, day)
+       <INT> ~> positive or negative number
+   * - ``/M<INT>M``
+     - Month Delta to apply, once the beginning of the respective month is determined.
+       <INT> ~> positive or negative number
+   * - ``/M:(mon|tue|wed|thu|fri|sat|sun)``
+     - Beginning of the month, first respective day of the month.
+   * - ``/M<INT>M:(mon|tue|wed|thu|fri|sat|sun)``
+     - Beginning of the month, Delta applied, first respective day of the month.
+   * - ``/y<INT>y``
+     - Year Delta to apply, once the beginning of the respective year is determined.
+       <INT> ~> positive or negative number
+
+
 
 CLI Usage
 ============

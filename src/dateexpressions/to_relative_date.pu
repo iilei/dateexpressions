@@ -27,7 +27,7 @@ class to_relative_date.Floor  {
 
 
 class to_relative_date.WeekdayOfMonthFloor  {
-  value : WeekDayShortString
+  value : WeekDayID
 }
 
 
@@ -78,7 +78,7 @@ legend
   |= Name  |= Rule details |
   | Comment | (\\/(\?!\<[\"'])\\*(.\|\\n)*\?\\*\\/(\?![\"']))\|(\\/\\/.*) |
   | FixedUnit | [smhdw] |
-  | WeekDayShortString | mon\|tue\|wed\|thu\|fri\|sat\|sun |
+  | WeekDayID | mon\|tue\|wed\|thu\|fri\|sat\|sun |
 end legend
 
 @enduml
