@@ -26,9 +26,7 @@ import logging
 import sys
 import textwrap
 from datetime import datetime
-from datetime import datetime as dt
 from pathlib import Path
-from typing import Union
 
 try:
     from zoneinfo import ZoneInfo
@@ -44,6 +42,11 @@ try:
     from croniter import croniter
 except ImportError:
     croniter = None
+
+try:
+    from time_machine import travel
+except ImportError:
+    travel = None
 
 
 from textx import metamodel_from_file
@@ -70,15 +73,12 @@ _logger = logging.getLogger(__name__)
 # when using this Python module as a library.
 
 
-def parse(expression: str, now: Union[datetime, NoneType] = None):
+def parse(expression: str):
     relative_date_model = relative_date_meta_model.model_from_str(expression or "now")
 
-    relative_date = RelativeDate(now)
+    relative_date = RelativeDate()
     _logger.debug(f"{expression=}")
     return relative_date.interpret(relative_date_model)
-
-
-assert parse("", dt(1984, 1, 1))
 
 
 def preflight(cron: str, expression: str, max_results: int):
@@ -87,7 +87,13 @@ def preflight(cron: str, expression: str, max_results: int):
     base = datetime.now(ZoneInfo("UTC"))
     itr = croniter(cron, base, max_years_between_matches=3)
 
-    return [parse(expression=expression, now=itr.get_next(datetime)) for _ in range(0, max_results)]
+    def mocked_time_interpreter(expression: str, now: datetime):
+        if not travel:
+            raise EnvironmentError("Unmet dependency. Did you install with [preflight] module?")
+        with travel(now, tick=False):
+            return parse(expression=expression)
+
+    return [mocked_time_interpreter(expression=expression, now=itr.get_next(datetime)) for _ in range(0, max_results)]
 
 
 # ---- CLI ----

@@ -14,9 +14,9 @@ def test_main_isoformat(capsys):
     """CLI Tests"""
     # capsys is a pytest fixture that allows asserts against stdout/stderr
     # https://docs.pytest.org/en/stable/capture.html
-    main(["isoformat", "now-78h/h"])
+    main(["isoformat", "now(Europe/Berlin)/h"])
     captured = capsys.readouterr()
-    assert "2023-12-30T08:00:00+00:00" in captured.out
+    assert "2024-01-02T14:00:00+01:00" in captured.out
 
 
 @pytest.mark.skipif(

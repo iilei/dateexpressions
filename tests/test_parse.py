@@ -9,10 +9,6 @@ UTC_ZONEINFO = ZoneInfo(key="UTC")
 SOME_DAY = dt.datetime(2024, 1, 24, 14, 15, 16, tzinfo=UTC_ZONEINFO)
 
 
-def test_parse_given_time():
-    assert parse("", SOME_DAY).isoformat() == "2024-01-24T14:15:16+00:00"
-
-
 @time_machine.travel(SOME_DAY, tick=False)
 def test_parse_system_time():
     assert parse("now").isoformat() == "2024-01-24T14:15:16+00:00"

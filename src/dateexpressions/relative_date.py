@@ -25,10 +25,9 @@ EARLIEST_FLOOR = [1, 1, 1, 0, 0, 0, 0]
 
 
 class RelativeDate:
-    def __init__(self, now: Union[datetime, NoneType] = None, **kwargs):
-        print(**kwargs)
+    def __init__(self):
         self.timezone = ZoneInfo("UTC")
-        self.now = now or datetime.now(self.timezone)
+        self.now = datetime.now(self.timezone)
         self.result = self.now
         self.positions = ["y", "M", "d", "h", "m", "s"]
 
@@ -36,12 +35,18 @@ class RelativeDate:
         if model.now:
             if model.now.timezone:
                 self.timezone = ZoneInfo(model.now.timezone)
+                self.now = datetime.now(self.timezone)
 
         for c in model.statements:
             if c.__class__.__name__ in ["FixedDelta"]:
                 self.result = self.result + timedelta(**dict([(units[c.unit], c.value)]))
 
-            if c.__class__.__name__ in ["MonthFloor", "YearFloor", "WeekFloor", "Floor"]:
+            if c.__class__.__name__ in [
+                "MonthFloor",
+                "YearFloor",
+                "WeekFloor",
+                "Floor",
+            ]:
                 value = c.delta.value if hasattr(c, "delta") and hasattr(c.delta, "value") else 0
                 day = c.day.value if hasattr(c, "day") and hasattr(c.day, "value") else False
                 unit = c.unit

@@ -50,6 +50,6 @@ jobs:
         run: |
           PREFLIGHT="true" pytest
 
-      - name: Text CLI availability
+      - name: Verify CLI availability
         run: |
           date-expression --version
