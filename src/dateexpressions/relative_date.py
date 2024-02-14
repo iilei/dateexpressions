@@ -1,14 +1,15 @@
 from datetime import datetime, timedelta
-from typing import Union
 
+# covered implicitly due to testing both variants: installed with `preflight` and without
 try:
     from zoneinfo import ZoneInfo
-except ImportError:
+except ImportError:  # pragma: no cover
     from backports.zoneinfo import ZoneInfo
 
+# covered implicitly due to tox python version settings
 try:
     from types import NoneType
-except ImportError:
+except ImportError:  # pragma: no cover
     NoneType = None.__class__
 
 units = {
@@ -32,10 +33,9 @@ class RelativeDate:
         self.positions = ["y", "M", "d", "h", "m", "s"]
 
     def interpret(self, model):
-        if model.now:
-            if model.now.timezone:
-                self.timezone = ZoneInfo(model.now.timezone)
-                self.now = datetime.now(self.timezone)
+        if model.now and model.now.timezone:
+            self.timezone = ZoneInfo(model.now.timezone)
+            self.now = datetime.now(self.timezone)
 
         for c in model.statements:
             if c.__class__.__name__ in ["FixedDelta"]:

@@ -28,24 +28,28 @@ import textwrap
 from datetime import datetime
 from pathlib import Path
 
+# covered implicitly due to tox python version settings
 try:
     from zoneinfo import ZoneInfo
-except ImportError:
+except ImportError:  # pragma: no cover
     from backports.zoneinfo import ZoneInfo
 
+# covered implicitly due to tox python version settings
 try:
     from types import NoneType
-except ImportError:
+except ImportError:  # pragma: no cover
     NoneType = None.__class__
 
+# covered implicitly due to tox python version settings
 try:
     from croniter import croniter
-except ImportError:
+except ImportError:  # pragma: no cover
     croniter = None
 
+# covered implicitly due to testing both variants: installed with `preflight` and without
 try:
     from time_machine import travel
-except ImportError:
+except ImportError:  # pragma: no cover
     travel = None
 
 
@@ -81,14 +85,15 @@ def parse(expression: str):
     return relative_date.interpret(relative_date_model)
 
 
-def preflight(cron: str, expression: str, max_results: int):
-    if not croniter:
+# covered implicitly due to testing both variants: installed with `preflight` and without
+def preflight(cron: str, expression: str, max_results: int):  # pragma: no cover
+    if not croniter:  # pragma: no cover
         raise EnvironmentError("Unmet dependency. Did you install with [preflight] module?")
     base = datetime.now(ZoneInfo("UTC"))
     itr = croniter(cron, base, max_years_between_matches=3)
 
     def mocked_time_interpreter(expression: str, now: datetime):
-        if not travel:
+        if not travel:  # pragma: no cover
             raise EnvironmentError("Unmet dependency. Did you install with [preflight] module?")
         with travel(now, tick=False):
             return parse(expression=expression)
@@ -208,7 +213,8 @@ def main(args):
     args = parse_args(args)
     setup_logging(args.loglevel)
 
-    if hasattr(args, "cron"):
+    # covered implicitly due to testing both variants: installed with `preflight` and without
+    if hasattr(args, "cron"):  # pragma: no cover
         print(
             json.dumps(
                 {
