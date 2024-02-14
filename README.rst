@@ -12,6 +12,11 @@
    :alt: pre-commit
 
 
+.. image:: https://iilei.github.io/iilei/dateexpressions/badges/coverage.svg
+   :target: https://github.com/iilei/dateexpressions/actions
+   :alt: code coverage
+
+
 .. warning::
 
    Regardless of what is stated in the text below, at the moment this Package has not yet been released on pypi.org.
