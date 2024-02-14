@@ -49,7 +49,7 @@ Parser Details
 ====================================
 
 .. image:: src/dateexpressions/svg/to_relative_date.svg
-    :alt: How the Syntax is interpreted - Diagram
+    :alt: How the syntax is interpreted - Diagram
     :target: src/dateexpressions/to_relative_date.puml
 
 ------------
@@ -105,7 +105,7 @@ Parser Details
      - Year Delta to apply, once the beginning of the respective year is determined.
        <INT> ~> positive or negative number
    * -
-     - **Note:** Except from the ability to clamp to weekdays, The Syntax
+     - **Note:** Except from the ability to clamp to weekdays, the syntax
        for Year and Month deltas is interchangable.
 
 The requirement to 'floor' to the beginning of Year or Month before adding a delta is to rule
@@ -123,10 +123,10 @@ Simple Example:
 CLI Usage: preflight
 ======================
 
-The Optional ``preflight`` module can be installed on-demand, like ``pip install dateexpressions[preflight]``.
+The Optional ``preflight`` module is to be requested explicitly if desired: ``pip install dateexpressions[preflight]``.
 
-To verify a date-expression provide the ``preflight`` job with a ``cron`` expression, optional ``max-results``
-and the date-expression you wish to see in action:
+To verify a date expression invoke the ``preflight`` job with a ``cron`` expression, optional ``max-results``
+and the date expression you wish to see in action:
 
 .. code:: shell
 
@@ -172,7 +172,14 @@ Run all Tests, all Python Versions:
    tox
 
 
-Credits
+Acknowledgments
 ---------------------------
-* `textX <https://github.com/textX/textX>`_ which is used for building the Domain-Specific Language Interpreter
-* Date range Picker keywords as seen in `Grafana <https://grafana.com/grafana/>`_
+
+*core parser*
+
+* `textX <https://github.com/textX/textX>`_, which is used for building the Domain-Specific Language Interpreter
+
+*'preflight' functionality*
+
+* `croniter <https://pypi.org/project/croniter/>`_ crontab parser
+* `time-machine <https://pypi.org/project/time-machine/>`_ for simulating different points in time for execution
