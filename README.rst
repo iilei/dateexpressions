@@ -12,10 +12,6 @@
    :alt: pre-commit
 
 
-.. image:: https://iilei.github.io/iilei/dateexpressions/badges/coverage.svg
-   :target: https://github.com/iilei/dateexpressions/actions
-   :alt: code coverage
-
 
 .. warning::
 
