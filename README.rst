@@ -11,32 +11,45 @@
    :target: https://github.com/pre-commit/pre-commit
    :alt: pre-commit
 
-
-
-.. warning::
-
-   Regardless of what is stated in the text below, at the moment this Package has not yet been released on pypi.org.
-
-
-
 ===============
 dateexpressions
 ===============
 
-
     Allows for expressing relative date-times in a human friendly way.
 
 
-Inspired by Grafana Date Picker; parses relative date expressions that are
-easily understood by humans and address typical configuration needs.
+.. CAUTION::
+
+   Regardless of what is stated in the text below, at the moment this Package has not yet been released on pypi.org.
+
+************************************
+
+*Why?*
+
+Dealing with recurring tasks, be it on a regular schedule or upon irregular events
+can be a source for confusion, especially when the 'regualar' and 'irregular' triggers
+happen to both initiate the same task.
+
+The user friendly and simple kind of *date expressions* at the `Grafana <https://grafana.com/grafana/>`_ Web Frontend with its date
+picker component gave the inspiration for this python package.
+
+With dateexpressions the same ease-of-use is at hand to be put to use by the simplicity
+of text-based configuration files interpreted by any kind of server side software.
+
+
+
+************************************
+
+parse
+====================================
+
+Interprets a date expression and returns a timezone-aware datetime object.
 
 .. code:: python
 
    from dateexpressions import parse
 
-   # Last saturday of last month --
-   # returning predictable results regardless of
-   # when it get executed
+   # Last saturday of last month
    parse("""
             now /M :sat -1w
             /*
@@ -44,9 +57,10 @@ easily understood by humans and address typical configuration needs.
             */
     """)
 
-------------------------------------
 
-Parser Details
+************************************
+
+Parser details
 ====================================
 
 .. image:: src/dateexpressions/svg/to_relative_date.svg
@@ -93,7 +107,7 @@ Parser Details
    * - ``<INT>[smhdw]``
      - Time Delta to apply. (second, minute, hour, day, week)
        <INT> ~> positive or negative number
-   * - ``/M<``
+   * - ``/M``
      - Beginning of the month.
    * - ``/M<INT>M``
      - Month Delta to apply, once the beginning of the respective month is determined.
@@ -107,22 +121,26 @@ Parser Details
        <INT> ~> positive or negative number
    * -
      - **Note:** Except from the ability to clamp to weekdays, the syntax
-       for Year and Month deltas is interchangable.
+       for year- and month-deltas is interchangable.
 
-The requirement to 'floor' to the beginning of Year or Month before adding a delta is to rule
+The requirement to *floor* to the beginning of Year or Month before adding a delta is to rule
 out any potential for confusion.
 
-CLI Usage: isoformat
-======================
+************************************
 
-Simple Example:
+CLI Usage: isoformat
+#########################
+
+Parses a given expression and returns the result ain ISO format.
+
+Example:
 
 .. code:: shell
 
    date-expression isoformat 'now /M :sat -1w'
 
 CLI Usage: preflight
-======================
+#########################
 
 The Optional ``preflight`` module is to be requested explicitly if desired: ``pip install dateexpressions[preflight]``.
 
@@ -159,7 +177,7 @@ Example Result, prettified (by piping it to ``jq '.'``):
 
 
 Scenarios covered
-======================
+----------------------
 
 Check out the `Specs </tests>`_ for a variety of usage scenarios.
 
@@ -172,6 +190,7 @@ Run all Tests, all Python Versions:
 
    tox
 
+***************************
 
 Acknowledgments
 ---------------------------
