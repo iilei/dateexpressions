@@ -181,8 +181,17 @@ Scenarios covered
 
 Check out the `Specs </tests>`_ for a variety of usage scenarios.
 
-Local Development
-----------------------
+***************************
+Local development and testing
+---------------------------
+
+Install all Dependencies
+
+
+```shell
+python -m pip install tox
+python -m pip install -e '.[testing]'
+```
 
 Run all Tests, all Python Versions:
 
