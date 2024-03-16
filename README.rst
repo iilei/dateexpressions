@@ -6,7 +6,6 @@
     :alt: Python package
     :target: https://github.com/iilei/dateexpressions/actions/workflows/python-package.yml
 
-
 .. image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit
    :target: https://github.com/pre-commit/pre-commit
    :alt: pre-commit
